@@ -15,6 +15,7 @@ interface AccordionItemProps {
   onSelect: (value: string) => void;
   groupName: string;
   iconSize?: string;
+  extraContent?: React.ReactNode;
 }
 
 const AccordionItem: React.FC<AccordionItemProps> = ({ 
@@ -26,7 +27,8 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   selectedValue, 
   onSelect, 
   groupName,
-  iconSize = "w-8 h-8"
+  iconSize = "w-8 h-8",
+  extraContent
 }) => {
   return (
     <div className="bg-white rounded-2xl shadow-md border-2 border-black hover:border-cyan-300 transition-all duration-300 overflow-hidden ease-in-out hover:scale-105 hover:-translate-y-1 hover:shadow-2xl cursor-pointer">
@@ -58,8 +60,17 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
                   onChange={() => {
                     onSelect(option.name);
                   }}
-                  className="w-5 h-5 accent-cyan-500 cursor-pointer"
+                  className="sr-only peer"
                 />
+                <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
+                  selectedValue === option.name
+                    ? 'border-cyan-500 bg-cyan-500 shadow-[0_0_0_2px_rgba(6,182,212,0.2)]'
+                    : 'border-gray-400 bg-white'
+                }`}>
+                  {selectedValue === option.name && (
+                    <span className="w-2 h-2 rounded-full bg-white" />
+                  )}
+                </span>
                 <div className="flex items-center gap-3">
                   <img src={option.icon} alt={option.name} className="w-9 h-9 object-contain" />
                   <span className="text-black font-medium">{option.name}</span>
@@ -67,6 +78,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
               </label>
             ))}
           </div>
+          {extraContent}
         </div>
       )}
     </div>
